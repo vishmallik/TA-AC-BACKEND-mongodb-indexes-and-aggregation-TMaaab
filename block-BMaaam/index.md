@@ -165,16 +165,16 @@ brown -> 67
 green -> 123
 ```
 
-    ```js
-    db.users.aggregate([
-      {
-        $group: {
-          _id: "$eyeColor",
-          count: { $sum: 1 },
-        },
-      },
-    ]);
-    ```
+```js
+db.users.aggregate([
+  {
+    $group: {
+      _id: "$eyeColor",
+      count: { $sum: 1 },
+    },
+  },
+]);
+```
 
 13. Count all females whose tags array include `amet` in it.
 
@@ -429,27 +429,26 @@ green -> 123
 }
 ```
 
-    ```js
-    db.users.aggregate([
-      {
-        $match: {
-          gender: "male",
-          age: { $gte: 18 },
-          isActive: false,
-        },
+```js
+db.users.aggregate([
+  {
+    $match: {
+      gender: "male",
+      age: { $gte: 18 },
+      isActive: false,
+    },
+  },
+  {
+    $project: {
+      _id: 0,
+      name: 1,
+      email: "$company.email",
+      identity: {
+        eye: "$eyeColor",
+        phone: "$company.phone",
+        location: "$company.location",
       },
-      {
-        $project: {
-          _id: 0,
-          name: 1,
-          email: "$company.email",
-          identity: {
-            eye: "$eyeColor",
-            phone: "$company.phone",
-            location: "$company.location",
-          },
-        },
-      },
-    ]);
-
-    ```
+    },
+  },
+]);
+```
